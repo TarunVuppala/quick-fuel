@@ -1,17 +1,12 @@
 import React from 'react';
-import Hero from './pages/Hero';
 import Navbar from './components/Navbar';
-import About from './pages/About';
-import Final from './pages/Final';
 import Footer from './components/Footer';
-
+import order from './pages/order/order';
 function App() {
   return (
     <div>
       <Navbar/>
-      <Hero/>
-      <About/>
-      <Final/>
+      <order/>
       <Footer/>
     </div>
   );
