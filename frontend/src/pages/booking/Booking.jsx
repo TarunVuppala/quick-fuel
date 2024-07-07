@@ -1,6 +1,6 @@
 import React from 'react'
 
-const booking = () => {
+const Booking = () => {
   return (
     <div>
         <img src="/images/booking.png" alt="tanker" />
@@ -9,4 +9,4 @@ const booking = () => {
   )
 }
 
-export default booking
+export default Booking

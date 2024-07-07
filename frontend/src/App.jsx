@@ -1,15 +1,14 @@
 import React from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import booking from './pages/booking/booking';
+import Booking from './pages/booking/Booking';
 
 function App() {
   return (
     <div>
-      <Navbar/>
-      <booking />
-
-      <Footer/>
+      <Navbar />
+      <Booking />
+      <Footer />
     </div>
   );
 }
