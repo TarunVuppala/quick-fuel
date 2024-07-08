@@ -7,10 +7,10 @@ import Map from './components/Map';
 function App() {
   return (
     <div>
-      {/* <Navbar /> */}
-      {/* <Booking /> */}
-      <Map/>
-      {/* <Footer /> */}
+      <Navbar />
+      <Booking />
+      {/* <Map/> */}
+      <Footer />
     </div>
   );
 }

@@ -38,6 +38,7 @@ app.post('/', async (req, res) => {
             username,
             phoneNumber,
             email,
+            role: "user",
             password,//: await bcrypt.hash(password, 10)
             city
         })
