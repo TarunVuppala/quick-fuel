@@ -1,31 +1,48 @@
-const express=require('express');
-const mongoose=require('mongoose');
-const dotenv=require('dotenv');
-const cookieparser=require('cookie-parser');
+const express = require('express');
+const http = require('http');
+const socketio = require('socket.io');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const cookieparser = require('cookie-parser');
+const cors=require('cors')
 
-const app=express();
+const app = express();
+const server = http.createServer(app);
+const io = socketio(server);
+
+io.on('connection', (socket) => {
+    socket.on('sendLocation', (data) => {
+        console.log('emitting');
+        io.emit('receiveLocation', {id:socket.id,...data});
+    });
+    socket.on('disconnect', () => {
+        io.emit('userDisconnect', socket.id);
+    })
+    console.log('We have a new connection');
+});
+
 dotenv.config();
-const PORT=process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000;
 
-const signupRoute=require('./routes/signupRoute');
-const loginRoute=require('./routes/loginRoute');
-const logoutRoute=require('./routes/logoutRoute');
-const {auth}=require('./services/auth');
+const signupRoute = require('./routes/signupRoute');
+const loginRoute = require('./routes/loginRoute');
+const logoutRoute = require('./routes/logoutRoute');
+const { auth } = require('./services/auth');
 
 mongoose.connect(process.env.MONGO_URI)
-    .then(()=>console.log('MongoDB connected'))
-    .catch(err=>console.log(err));
+    .then(() => console.log('MongoDB connected'))
+    .catch(err => console.log(err));
 
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieparser());
+app.use(cors({credentials:true,origin:'http://localhost:3000'}))
+app.use('/api/signup', signupRoute);
+app.use('/api/login', loginRoute);
+app.use('/api/logout', logoutRoute);
 
-app.use('/api/signup',signupRoute);
-app.use('/api/login',loginRoute);
-app.use('/api/logout',logoutRoute);
-
-app.get('/',auth,(req,res)=>{
+app.get('/', auth, (req, res) => {
     res.send('Hello World');
-})
+});
 
-app.listen(PORT,()=>console.log(`Server started http://localhost:${PORT}`));
+server.listen(PORT, () => console.log(`Server started http://localhost:${PORT}`));
