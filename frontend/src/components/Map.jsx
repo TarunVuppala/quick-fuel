@@ -40,14 +40,14 @@ function Map() {
             } else {
                 markersRef.current[id] = L.marker([latitude, longitude]).addTo(map);
             }
-        map.setView([latitude, longitude], 20);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: "Tarun"
-        }).addTo(map);
+            map.setView([latitude, longitude], 20);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: "Tarun"
+            }).addTo(map);
         });
 
         socketRef.current.on('userDisconnect', (id) => {
-            if(markersRef.current[id]){
+            if (markersRef.current[id]) {
                 mapRef.current.removeLayer();
                 delete markersRef.current[id];
             }

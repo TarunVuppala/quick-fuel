@@ -38,6 +38,10 @@ const deliveryAgentSchema = new mongoose.Schema({
   orders: {
     type: [mongoose.Schema.Types.ObjectId],
     ref: 'FuelOrder'
+  },
+  online: {
+    type: Boolean,
+    default: false
   }
 }, {
   timestamps: true

@@ -11,7 +11,7 @@ const vehicleRepairOrderSchema = new mongoose.Schema({
     ref: 'Mechanic',
     required: true
   },
-  vehicle: {
+  vehicleType: {
     type: String,
     required: true
   },

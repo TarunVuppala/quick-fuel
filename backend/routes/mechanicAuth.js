@@ -5,7 +5,7 @@ const validator = require('validator');
 
 const app = express();
 const Mechanic = require('../models/mechanic');
-const { setToken } = require('../services/user');
+const { setToken,getUser } = require('../services/user');
 
 // Middleware to parse JSON bodies
 app.use(express.json());
@@ -90,6 +90,8 @@ app.post('/login', async (req, res) => {
     // Generate JWT token
     const token = setToken(mechanic);
 
+    mechanic.online=true
+    mechanic.save()
     // Respond with success message and token
     res.status(200).json({ user: mechanic, token, msg: "Login successful", success: true });
   } catch (error) {
@@ -97,5 +99,24 @@ app.post('/login', async (req, res) => {
     res.status(500).json({ msg: "Server error", success: false });
   }
 });
+
+app.post('/logout',async (req, res) => {
+  const token = req.cookies.token||req.headers.authorization.split(" ")[1];
+  if (!token) {
+    return res.status(401).json({ msg: "Unauthorized", success: false });
+  }
+
+  const payload = getUser(token);
+  if (payload===null) {
+    return res.status(401).json({ msg: "Unauthorized", success: false });
+  }
+  
+  const user=await Mechanic.findById(payload.user)
+  user.online=false
+  user.save()
+
+  res.clearCookie('token');
+  res.status(200).json({ msg: "Logged out successfully", success: true });
+})
 
 module.exports = app;

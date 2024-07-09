@@ -29,6 +29,7 @@ const loginRoute = require('./routes/loginRoute');
 const logoutRoute = require('./routes/logoutRoute');
 const agentAuth = require('./routes/agentAuth');
 const mechanicAuth = require('./routes/mechanicAuth');
+const order=require('./routes/order')
 
 const { auth } = require('./services/auth');
 
@@ -45,6 +46,7 @@ app.use('/api/login', loginRoute);
 app.use('/api/logout', logoutRoute);
 app.use('/api/agent', agentAuth);
 app.use('/api/mechanic', mechanicAuth);
+app.use('/api/order',order)
 
 app.get('/', auth, (req, res) => {
     res.send('Hello World');

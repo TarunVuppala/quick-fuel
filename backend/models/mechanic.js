@@ -30,10 +30,14 @@ const mechanicSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  orders: [{
-    type: mongoose.Schema.Types.ObjectId,
+  orders: {
+    type: [mongoose.Schema.Types.ObjectId],
     ref: 'VehicleRepairOrder'
-  }]
+  },
+  online: {
+    type: Boolean,
+    default: false
+  }
 }, {
   timestamps: true
 });
