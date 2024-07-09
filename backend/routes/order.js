@@ -48,6 +48,39 @@ app.post('/fuel', async (req, res) => {
     }
 })
 
+app.put('/fuel', async(req,res)=>{
+    const token=req.cookies.token||req.headers.authorization.split(" ")[1];
+    if (!token) {
+        res.status(401).json({ msg: "Unauthorized", success: false })
+        return;
+    }
+    const payload = getUser(token);
+    if (payload===null) {
+        res.status(401).json({ msg: "Unauthorized", success: false })
+        return;
+    }
+
+    const { orderId, status } = req.body;
+
+    if (!orderId || !status) {
+        res.status(400).json({ msg: "Missing fields", success: false })
+        return;
+    }
+
+    try {
+        const order = await FuelOrder.findById(orderId);
+        if (order.user.toString() !== payload.user) {
+            res.status(401).json({ msg: "Unauthorized", success: false })
+            return;
+        }
+        order.status = status;
+        await order.save();
+        res.status(200).json({ msg: "Order updated", success: true })
+    } catch (err) {
+        res.status(500).json({ msg: err.message, success: false })
+    }
+})
+
 app.post('/repair', async (req, res) => {
     const token=req.cookies.token||req.headers.authorization.split(" ")[1];
     if (!token) {
@@ -60,9 +93,9 @@ app.post('/repair', async (req, res) => {
         return;
     }
     
-    const { vehicleType, quantity, address, price } = req.body;
+    const { vehicleType, repairType, address, price } = req.body;
     
-    if (!vehicleType || !quantity || !address || !price) {
+    if (!vehicleType || !repairType || !address || !price) {
         res.status(400).json({ msg: "Missing fields", success: false })
         return;
     }
@@ -84,6 +117,39 @@ app.post('/repair', async (req, res) => {
         mechanic.orders.push(newRepairOrder._id)
         mechanic.save()
         res.status(200).json({newRepairOrder, msg: "Order created", success: true })
+    } catch (err) {
+        res.status(500).json({ msg: err.message, success: false })
+    }
+})
+
+app.put('/repair', async(req,res)=>{
+    const token=req.cookies.token||req.headers.authorization.split(" ")[1];
+    if (!token) {
+        res.status(401).json({ msg: "Unauthorized", success: false })
+        return;
+    }
+    const payload = getUser(token);
+    if (payload===null) {
+        res.status(401).json({ msg: "Unauthorized", success: false })
+        return;
+    }
+
+    const { orderId, status } = req.body;
+
+    if (!orderId || !status) {
+        res.status(400).json({ msg: "Missing fields", success: false })
+        return;
+    }
+
+    try {
+        const order = await RepairOrder.findById(orderId);
+        if (order.user.toString() !== payload.user) {
+            res.status(401).json({ msg: "Unauthorized", success: false })
+            return;
+        }
+        order.status = status;
+        await order.save();
+        res.status(200).json({ msg: "Order updated", success: true })
     } catch (err) {
         res.status(500).json({ msg: err.message, success: false })
     }
