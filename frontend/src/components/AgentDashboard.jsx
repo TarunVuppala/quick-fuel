@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Map from '../components/Map';
 
 const AgentDashboard = () => {
     const [orders, setOrders] = useState([]);
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [status, setStatus] = useState('');
-    const navigate=useNavigate();
+    const navigate = useNavigate();
+    const [showMap, setShowMap] = useState(false);
 
     useEffect(() => {
         // Fetch orders on component mount
@@ -16,7 +18,11 @@ const AgentDashboard = () => {
                 const response = await axios.get('/api/agent', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
-                setOrders(response.data.orders);
+                const orders = response.data.orders;
+                setOrders(orders);
+                // Check if any order is not delivered and show the map
+                const hasUndeliveredOrder = orders.some(order => order.status !== 'delivered');
+                setShowMap(hasUndeliveredOrder);
             } catch (error) {
                 console.error("Error fetching orders:", error);
             }
@@ -44,11 +50,16 @@ const AgentDashboard = () => {
                 headers: { Authorization: `Bearer ${token}` }
             });
             // Update the local orders state
-            setOrders(orders.map(order => 
+            const updatedOrders = orders.map(order =>
                 order._id === orderId ? { ...order, status } : order
-            ));
+            );
+            setOrders(updatedOrders);
             setSelectedOrder(null); // Clear selected order
             setStatus(''); // Clear status
+
+            // Check if any order is not delivered and update showMap state
+            const hasUndeliveredOrder = updatedOrders.some(order => order.status !== 'delivered');
+            setShowMap(hasUndeliveredOrder);
         } catch (error) {
             console.error("Error updating status:", error);
         }
@@ -68,6 +79,7 @@ const AgentDashboard = () => {
             >
                 Logout
             </button>
+            {showMap && <Map />}
             <div>
                 {orders.length > 0 ? (
                     orders.map(order => (
