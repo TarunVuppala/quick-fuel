@@ -47,6 +47,9 @@ app.use('/api/logout', logoutRoute);
 app.use('/api/agent', agentAuth);
 app.use('/api/mechanic', mechanicAuth);
 app.use('/api/order',order)
+app.use('/api/verify',auth,async(req,res)=>{
+    res.status(200).json({success:true})
+})
 
 app.get('/', auth, (req, res) => {
     res.send('Hello World');

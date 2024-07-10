@@ -6,7 +6,7 @@ const About = () => {
         {/* Fuel Section */}
         <div className='flex flex-col lg:flex-row justify-center items-center px-[1rem] lg:max-w-[70%]'>
             {/* Left Section */}
-            <img src='/images/About_1.png' draggable={false}/>
+            <img src='/images/About_1.png' alt='fuel' draggable={false}/>
             {/* Right Section */}
             <div className='flex flex-col gap-[1rem]'>
                 <h3 className='font-[500] text-1xl'>Experience the ultimate convenience with our hassle-free fuel delivery service. Whether youre at home, work, or on the go, our efficient delivery system ensures you never run out of fuel. Simply book your fuel online, and our team will deliver it to your desired location swiftly and safely.</h3>
