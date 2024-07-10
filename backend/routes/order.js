@@ -3,6 +3,7 @@ const FuelOrder = require('../models/fuelOrderModel')
 const RepairOrder = require('../models/vehicleRepairModel')
 const DeliveryAgent = require('../models/deliveryAgentModel')
 const Mechanic = require('../models/mechanic')
+const User=require('../models/userModel')
 
 const {getUser}=require('../services/user')
 
@@ -43,7 +44,10 @@ app.post('/fuel', async (req, res) => {
         address,
         price
     })
+    const user=await User.findById(payload.user)
+    user.fuelOrders.push(newFuelOrder._id)
     try {
+        user.save()
         await newFuelOrder.save();
         deliveryAgent.orders.push(newFuelOrder._id)
         deliveryAgent.save()

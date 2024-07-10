@@ -15,6 +15,7 @@ import AgentDashboard from './components/AgentDashboard';
 import AgentSignUp from './pages/auth/AgentSignUp';
 import AgentLogin from './pages/auth/AgentLogin';
 import AgentRefreshHandler from './components/AgentRefreshHandler';
+import Tracking from './pages/booking/Tracking';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -51,6 +52,7 @@ function App() {
         <Route path='/order' element={<Order />} />
         <Route path='/contact' element={<Contact />} />
         <Route path='/booking' element={<Booking />} />
+        <Route path='/tracking' element={<Tracking />} />
         <Route path='/agent' element={
           <PrivateRoute auth={isAgentAuthenticated} element={
             <AgentDashboard />

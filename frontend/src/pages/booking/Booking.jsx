@@ -48,7 +48,7 @@ const Booking = () => {
       });
       if (response.data.success) {
         alert('Order created successfully!');
-        navigate('/home');
+        navigate('/tracking');
       } else {
         alert('Failed to create order.');
       }

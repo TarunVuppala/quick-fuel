@@ -32,6 +32,14 @@ const userModel = mongoose.Schema({
     city: {
         type: String,
         required: true
+    },
+    fuelOrders:{
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'FuelOrder'
+    },
+    vehicleRepairOrders:{
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'VehicleRepairOrder'
     }
 },{
     timestamps: true
