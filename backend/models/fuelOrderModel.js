@@ -12,8 +12,7 @@ const fuelOrderSchema = new mongoose.Schema({
     required: true
   },
   fuelType: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'fueltypes',
+    type: String,
     required: true
   },
   quantity: {

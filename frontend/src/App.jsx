@@ -7,6 +7,9 @@ import Final from './pages/Landing/Final';
 import Login from './pages/auth/Login';
 import Signup from './pages/auth/Signup';
 import Footer from './components/Footer';
+import Order from './pages/order/Order';
+import Contact from './components/Contact';
+import Booking from './pages/booking/Booking';
 import RefreshHandler from './components/RefreshHandler';
 
 function App() {
@@ -36,6 +39,11 @@ function App() {
             <Home />
           } />
         } />
+        <Route path='/about' element={<About />} />
+        <Route path='/order' element={<Order/>} />
+        <Route path='/contact' element={<Contact/>}/>
+        <Route path='/agent/login' element={<Contact/>}/>
+        <Route path='/booking' element={<Booking/>}/>
       </Routes>
     </div>
   );

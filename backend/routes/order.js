@@ -27,6 +27,11 @@ app.post('/fuel', async (req, res) => {
         return;
     }
     const agents=await DeliveryAgent.find({online:true})
+
+    if(agents.length===0){
+        res.status(400).json({ msg: "No agents online", success: false })
+        return;
+    }
     const random=Math.floor(Math.random()*agents.length)
     const deliveryAgent=agents[random]
 
@@ -44,6 +49,7 @@ app.post('/fuel', async (req, res) => {
         deliveryAgent.save()
         res.status(200).json({newFuelOrder, msg: "Order created", success: true })
     } catch (err) {
+        console.log(err);
         res.status(500).json({ msg: err.message, success: false })
     }
 })

@@ -14,10 +14,10 @@ const Navbar = ({auth}) => {
         <span className='text-[#FF0000]'>Fuel</span>
       </h1>
       <div className='uppercase font-black lg:flex gap-5 hidden'>
-        <div>Home</div>
-        <div>Order</div>
-        <div>About</div>
-        <div>Contact</div>
+        <div><Link to='/'>Home</Link></div>
+        <div><Link to='/order'>Order</Link></div>
+        <div><Link to='/about'>About</Link></div>
+        <div><Link to='/contact'>Contact</Link></div>
         {auth==='Login' ? <Link to='/login'><div>Login</div></Link> : <button onClick={handleLogout}>Logout</button>
       }
       </div>
