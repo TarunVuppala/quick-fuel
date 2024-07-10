@@ -29,7 +29,7 @@ const fuelOrderSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['pending', 'accepted', 'in_transit', 'delivered', 'cancelled'],
+    enum: ['pending','in_transit', 'delivered'],
     default: 'pending'
   },
   date: {

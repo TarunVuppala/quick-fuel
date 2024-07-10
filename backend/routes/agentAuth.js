@@ -5,11 +5,20 @@ const validator = require('validator');
 
 const app = express();
 const DeliveryAgent = require('../models/deliveryAgentModel');
+const FuelOrder = require('../models/fuelOrderModel');
 const { setToken, getUser } = require('../services/user');
 const { agentAuth } = require('../services/auth');
 
 // Middleware to parse JSON bodies
 app.use(express.json());
+
+app.get('/', agentAuth,async (req, res) => {
+  const token = req.cookies.token||req.headers.authorization.split(" ")[1];
+  const orders=await FuelOrder.find({deliveryAgent: req.user.user})
+  // const orders=await DeliveryAgent.findById(req.user.user).populate('orders')
+
+  res.status(200).json({ orders, msg: "Delivery agent authenticated successfully", success: true });
+});
 
 // Signup route
 app.post('/signup', async (req, res) => {

@@ -75,14 +75,11 @@ app.put('/fuel', async(req,res)=>{
 
     try {
         const order = await FuelOrder.findById(orderId);
-        if (order.user.toString() !== payload.user) {
-            res.status(401).json({ msg: "Unauthorized", success: false })
-            return;
-        }
         order.status = status;
         await order.save();
         res.status(200).json({ msg: "Order updated", success: true })
     } catch (err) {
+        console.log(err);
         res.status(500).json({ msg: err.message, success: false })
     }
 })
