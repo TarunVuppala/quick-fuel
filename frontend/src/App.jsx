@@ -11,16 +11,22 @@ import Order from './pages/order/Order';
 import Contact from './components/Contact';
 import Booking from './pages/booking/Booking';
 import RefreshHandler from './components/RefreshHandler';
+import AgentDashboard from './components/AgentDashboard';
+import AgentSignUp from './pages/auth/AgentSignUp';
+import AgentLogin from './pages/auth/AgentLogin';
+import AgentRefreshHandler from './components/AgentRefreshHandler';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAgentAuthenticated, setIsAgentAuthenticated] = useState(false);
 
-  const PrivateRoute = ({ element }) => {
-    return isAuthenticated ? element : <Navigate to="/login" />
+  const PrivateRoute = ({ element, auth,redirect }) => {
+    return auth ? element : <Navigate to={redirect} />
   }
 
   return (
     <div>
+      <AgentRefreshHandler setIsAuthenticated={setIsAgentAuthenticated} />
       <RefreshHandler setIsAuthenticated={setIsAuthenticated} />
       <Routes>
         <Route path='/' element={
@@ -35,18 +41,30 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
         <Route path='/home' element={
-          <PrivateRoute element={
+          <PrivateRoute auth={isAuthenticated} element={
             <Home />
-          } />
+          } 
+          redirect={'/login'}
+          />
         } />
         <Route path='/about' element={<About />} />
-        <Route path='/order' element={<Order/>} />
-        <Route path='/contact' element={<Contact/>}/>
-        <Route path='/agent/login' element={<Contact/>}/>
-        <Route path='/booking' element={<Booking/>}/>
+        <Route path='/order' element={<Order />} />
+        <Route path='/contact' element={<Contact />} />
+        <Route path='/booking' element={<Booking />} />
+        <Route path='/agent' element={
+          <PrivateRoute auth={isAgentAuthenticated} element={
+            <AgentDashboard />
+          } 
+          redirect={'/agent/login'}
+          
+          />
+        } />
+        <Route path='/agent/signup' element={<AgentSignUp />} />
+        <Route path='/agent/login' element={<AgentLogin />} />
       </Routes>
     </div>
   );
+
 }
 
 const Home = () => {

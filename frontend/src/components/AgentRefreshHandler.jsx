@@ -1,14 +1,14 @@
 import { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-function RefreshHandler({ setIsAuthenticated }) {
+function AgentRefreshHandler({ setIsAuthenticated }) {
     const location = useLocation();
     const navigate = useNavigate();
 
     useEffect(() => {
         const verifyToken=async()=>{
             const token=localStorage.getItem('token')
-            const response=await fetch('/api/verify', {
+            const response=await fetch('/api/agent/verify', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -19,11 +19,13 @@ function RefreshHandler({ setIsAuthenticated }) {
             if (data.success) {
                 setIsAuthenticated(true);
                 if (location.pathname === '/' ||
+                    location.pathname === '/home' ||
                     location.pathname === '/login' ||
-                    location.pathname === '/signup' ||
-                    location.pathname === '/agent'
+                    location.pathname === '/agent/login' ||
+                    location.pathname === '/agent/signup' ||
+                    location.pathname === '/signup'
                 ) {
-                    navigate('/home', { replace: false });
+                    navigate('/agent', { replace: false });
                 }
             }
         }
@@ -36,4 +38,4 @@ function RefreshHandler({ setIsAuthenticated }) {
     )
 }
 
-export default RefreshHandler
+export default AgentRefreshHandler

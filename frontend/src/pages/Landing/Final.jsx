@@ -1,5 +1,5 @@
 import React from 'react'
-import CTA from '../../components/CTA'
+import { Link } from 'react-router-dom'
 
 const Final = () => {
   return (
@@ -8,7 +8,7 @@ const Final = () => {
         <img src="/images/Final.png" alt="Calendar" className='lg:w-[30%]' draggable={false}/>
         <div className='flex flex-col gap-[1rem] lg:max-w-[40%]'>
             <p className='font-semibold text-1xl'>Discover the ultimate in convenience and reliability with our top-tier fuel delivery and vehicle repair services. Our commitment to quality ensures your vehicle receives the best care, whether you need a quick refuel or expert maintenance.</p>
-            <CTA text={"Book Now"} action={""} />
+            <Link to='/order'>Book Now</Link>
         </div>
     </div>
   )

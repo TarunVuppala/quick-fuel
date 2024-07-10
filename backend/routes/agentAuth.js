@@ -6,6 +6,7 @@ const validator = require('validator');
 const app = express();
 const DeliveryAgent = require('../models/deliveryAgentModel');
 const { setToken, getUser } = require('../services/user');
+const { agentAuth } = require('../services/auth');
 
 // Middleware to parse JSON bodies
 app.use(express.json());
@@ -117,6 +118,10 @@ app.post('/logout',async (req, res) => {
 
   res.clearCookie('token');
   res.status(200).json({ msg: "Logged out successfully", success: true });
+})
+
+app.post('/verify',agentAuth,async(req,res)=>{
+  res.status(200).json({success:true})
 })
 
 module.exports = app;
