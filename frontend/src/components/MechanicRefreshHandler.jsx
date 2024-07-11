@@ -1,14 +1,14 @@
 import { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-function AgentRefreshHandler({ setIsAuthenticated }) {
+function MechanicRefreshHandler({setIsAuthenticated}) {
     const location = useLocation();
     const navigate = useNavigate();
 
     useEffect(() => {
         const verifyToken=async()=>{
             const token=localStorage.getItem('token')
-            const response=await fetch('/api/agent/verify', {
+            const response=await fetch('/api/mechanic/verify', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -22,11 +22,11 @@ function AgentRefreshHandler({ setIsAuthenticated }) {
                 if (location.pathname === '/' ||
                     location.pathname === '/home' ||
                     location.pathname === '/login' ||
-                    location.pathname === '/agent/login' ||
-                    location.pathname === '/agent/signup' ||
+                    location.pathname === '/mechanic/login' ||
+                    location.pathname === '/mechanic/signup' ||
                     location.pathname === '/signup'
                 ) {
-                    navigate('/agent', { replace: false });
+                    navigate('/mechanic', { replace: false });
                 }
             }
         }
@@ -39,4 +39,4 @@ function AgentRefreshHandler({ setIsAuthenticated }) {
     )
 }
 
-export default AgentRefreshHandler
+export default MechanicRefreshHandler

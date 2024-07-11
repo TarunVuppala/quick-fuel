@@ -5,10 +5,19 @@ const validator = require('validator');
 
 const app = express();
 const Mechanic = require('../models/mechanic');
+const VehicleRepairOrder = require('../models/vehicleRepairModel');
 const { setToken,getUser } = require('../services/user');
+const {mechAuth}=require('../services/auth')
 
 // Middleware to parse JSON bodies
 app.use(express.json());
+
+app.get('/',async(req,res)=>{
+  const token=re.headers.authorization.split(" ")[1]
+  const orders=await VehicleRepairOrder.find({mechanic: req.user.user})
+
+  res.status(200).json({ orders, msg: "Mechanic authenticated successfully", success: true });
+})
 
 // Signup route for mechanic
 app.post('/signup', async (req, res) => {
@@ -117,6 +126,10 @@ app.post('/logout',async (req, res) => {
 
   res.clearCookie('token');
   res.status(200).json({ msg: "Logged out successfully", success: true });
+})
+
+app.post('/verify',mechAuth,async(req,res)=>{
+  res.status(200).json({success:true})
 })
 
 module.exports = app;

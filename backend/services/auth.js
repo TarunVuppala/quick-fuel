@@ -1,7 +1,6 @@
 const { getUser } = require('./user');
 const User = require('../models/userModel');
 const DeliveryAgent=require('../models/deliveryAgentModel')
-const Mechhanic =require('../models/mechanic');
 const Mechanic = require('../models/mechanic');
 
 async function auth(req, res, next) {
@@ -43,7 +42,7 @@ async function agentAuth(req, res, next) {
         res.status(401).json({ msg: "Unauthorized", success: false });
         return;
     }
-    const dbUser=await Mechanic.findById(user.user)
+    const dbUser=await DeliveryAgent.findById(user.user)
     if(!dbUser){
         res.status(401).json({ msg: "Unauthorized", success: false });
         return;
@@ -67,7 +66,7 @@ async function mechAuth(req, res, next) {
         res.status(401).json({ msg: "Unauthorized", success: false });
         return;
     }
-    const dbUser=await DeliveryAgent.findById(user.user)
+    const dbUser=await Mechanic.findById(user.user)
     if(!dbUser){
         res.status(401).json({ msg: "Unauthorized", success: false });
         return;

@@ -15,19 +15,25 @@ import AgentDashboard from './components/AgentDashboard';
 import AgentSignUp from './pages/auth/AgentSignUp';
 import AgentLogin from './pages/auth/AgentLogin';
 import AgentRefreshHandler from './components/AgentRefreshHandler';
+import MechanicDashboard from './components/MechanicDashboard';
+import MechanicLogin from './pages/auth/MechanicLogin';
+import MechanicSignup from './pages/auth/MechanicSignup';
 import Tracking from './pages/booking/Tracking';
+import MechanicRefreshHandler from './components/MechanicRefreshHandler';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAgentAuthenticated, setIsAgentAuthenticated] = useState(false);
+  const [isMechAuthenticated, setIsMechAuthenticated] = useState(false);
 
-  const PrivateRoute = ({ element, auth,redirect }) => {
+  const PrivateRoute = ({ element, auth, redirect }) => {
     return auth ? element : <Navigate to={redirect} />
   }
 
   return (
     <div>
       <AgentRefreshHandler setIsAuthenticated={setIsAgentAuthenticated} />
+      <MechanicRefreshHandler setIsAuthenticated={setIsMechAuthenticated} />
       <RefreshHandler setIsAuthenticated={setIsAuthenticated} />
       <Routes>
         <Route path='/' element={
@@ -44,8 +50,8 @@ function App() {
         <Route path='/home' element={
           <PrivateRoute auth={isAuthenticated} element={
             <Home />
-          } 
-          redirect={'/login'}
+          }
+            redirect={'/login'}
           />
         } />
         <Route path='/about' element={<About />} />
@@ -56,13 +62,23 @@ function App() {
         <Route path='/agent' element={
           <PrivateRoute auth={isAgentAuthenticated} element={
             <AgentDashboard />
-          } 
-          redirect={'/agent/login'}
-          
+          }
+            redirect={'/agent/login'}
+
           />
         } />
         <Route path='/agent/signup' element={<AgentSignUp />} />
         <Route path='/agent/login' element={<AgentLogin />} />
+        <Route path='/mechanic' element={
+          <PrivateRoute auth={isMechAuthenticated} element={
+            <MechanicDashboard />
+          }
+            redirect={'/mechanic/login'}
+          />
+        }
+        />
+        <Route path='/mechanic/signup' element={<MechanicSignup />} />
+        <Route path='/mechanic/login' element={<MechanicLogin />} />
       </Routes>
     </div>
   );
