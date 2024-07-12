@@ -13,7 +13,7 @@ const {mechAuth}=require('../services/auth')
 app.use(express.json());
 
 app.get('/',async(req,res)=>{
-  const token=re.headers.authorization.split(" ")[1]
+  const token=req.headers.authorization.split(" ")[1]
   const orders=await VehicleRepairOrder.find({mechanic: req.user.user})
 
   res.status(200).json({ orders, msg: "Mechanic authenticated successfully", success: true });
