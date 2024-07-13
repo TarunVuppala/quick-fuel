@@ -6,27 +6,32 @@ function RefreshHandler({ setIsAuthenticated }) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const verifyToken=async()=>{
-            const token=localStorage.getItem('token')
-            const response=await fetch('/api/verify', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-            })
-            const data=await response.json()
-            if (data.success) {
-                setIsAuthenticated(true);
-                if (location.pathname === '/' ||
-                    location.pathname === '/login' ||
-                    location.pathname === '/signup' ||
-                    location.pathname === '/agent'||
-                    location.pathname === '/mechanic'
-                ) {
-                    navigate('/home', { replace: false });
+        const verifyToken = async () => {
+            try {
+                const token = localStorage.getItem('token')
+                const response = await fetch('/api/verify', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                })
+                const data = await response.json()
+                if (data.success) {
+                    setIsAuthenticated(true);
+                    if (location.pathname === '/' ||
+                        location.pathname === '/login' ||
+                        location.pathname === '/signup' ||
+                        location.pathname === '/agent' ||
+                        location.pathname === '/mechanic'
+                    ) {
+                        navigate('/home', { replace: false });
+                    }
                 }
+            } catch (error) {
+                console.log(error);
             }
+
         }
 
         verifyToken();

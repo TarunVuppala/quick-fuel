@@ -41,6 +41,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieparser());
 app.use(cors({credentials:true,origin:'http://localhost:3000'}))
+
 app.use('/api/signup', signupRoute);
 app.use('/api/login', loginRoute);
 app.use('/api/logout', logoutRoute);
