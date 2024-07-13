@@ -21,7 +21,8 @@ function RefreshHandler({ setIsAuthenticated }) {
                 if (location.pathname === '/' ||
                     location.pathname === '/login' ||
                     location.pathname === '/signup' ||
-                    location.pathname === '/agent'
+                    location.pathname === '/agent'||
+                    location.pathname === '/mechanic'
                 ) {
                     navigate('/home', { replace: false });
                 }

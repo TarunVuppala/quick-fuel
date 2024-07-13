@@ -56,11 +56,39 @@ function App() {
           />
         } />
         <Route path='/about' element={<About />} />
-        <Route path='/order' element={<Order />} />
+        <Route path='/order' element={
+          <PrivateRoute auth={isAuthenticated} element={
+            <Order />
+          }
+            redirect={'/login'}
+          />
+        }/>
+
         <Route path='/contact' element={<Contact />} />
-        <Route path='/booking' element={<Booking />} />
-        <Route path='/mbooking' element={<MechanicBooking />} />
-        <Route path='/tracking' element={<Tracking />} />
+        <Route path='/booking' element={
+          <PrivateRoute auth={isAuthenticated} element={
+            <Booking />
+          }
+            redirect={'/login'}
+          />
+        }/>
+
+        <Route path='/mbooking' element={
+          <PrivateRoute auth={isAuthenticated} element={
+            <MechanicBooking />
+          }
+            redirect={'/login'}
+          />
+        }/>
+
+        <Route path='/tracking' element={
+          <PrivateRoute auth={isAuthenticated} element={
+            <Tracking />
+          }
+            redirect={'/login'}
+          />
+        }/>
+
         <Route path='/agent' element={
           <PrivateRoute auth={isAgentAuthenticated} element={
             <AgentDashboard />
