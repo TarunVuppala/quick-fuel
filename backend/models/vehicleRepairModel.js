@@ -29,7 +29,7 @@ const vehicleRepairOrderSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['pending', 'accepted', 'in_progress', 'completed', 'cancelled'],
+    enum: ['pending', 'in_progress', 'completed'],
     default: 'pending'
   },
   date: {

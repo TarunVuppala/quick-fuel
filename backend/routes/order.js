@@ -108,6 +108,10 @@ app.post('/repair', async (req, res) => {
     }
 
     const mechanics=await Mechanic.find({online:true})
+    if(mechanics.length===0){
+        res.status(400).json({ msg: "No agents online", success: false })
+        return;
+    }
     const random=Math.floor(Math.random()*mechanics.length)
     const mechanic=mechanics[random]
 

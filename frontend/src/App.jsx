@@ -20,6 +20,7 @@ import MechanicLogin from './pages/auth/MechanicLogin';
 import MechanicSignup from './pages/auth/MechanicSignup';
 import Tracking from './pages/booking/Tracking';
 import MechanicRefreshHandler from './components/MechanicRefreshHandler';
+import MechanicBooking from './pages/booking/MechanicBooking';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -58,6 +59,7 @@ function App() {
         <Route path='/order' element={<Order />} />
         <Route path='/contact' element={<Contact />} />
         <Route path='/booking' element={<Booking />} />
+        <Route path='/mbooking' element={<MechanicBooking />} />
         <Route path='/tracking' element={<Tracking />} />
         <Route path='/agent' element={
           <PrivateRoute auth={isAgentAuthenticated} element={

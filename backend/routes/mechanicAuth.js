@@ -6,18 +6,29 @@ const validator = require('validator');
 const app = express();
 const Mechanic = require('../models/mechanic');
 const VehicleRepairOrder = require('../models/vehicleRepairModel');
-const { setToken,getUser } = require('../services/user');
-const {mechAuth}=require('../services/auth')
+const { setToken, getUser } = require('../services/user');
+const { mechAuth } = require('../services/auth');
 
 // Middleware to parse JSON bodies
 app.use(express.json());
 
-app.get('/',async(req,res)=>{
-  const token=re.headers.authorization.split(" ")[1]
-  const orders=await VehicleRepairOrder.find({mechanic: req.user.user})
+// Utility function to extract token
+const extractToken = (req) => {
+  const authorizationHeader = req.headers.authorization;
+  if (!authorizationHeader) return null;
+  const parts = authorizationHeader.split(" ");
+  return parts.length === 2 ? parts[1] : null;
+};
 
-  res.status(200).json({ orders, msg: "Mechanic authenticated successfully", success: true });
-})
+app.get('/', mechAuth, async (req, res) => {
+  try {
+    const orders = await VehicleRepairOrder.find({ mechanic: req.user.user });
+    res.status(200).json({ orders, msg: "Mechanic authenticated successfully", success: true });
+  } catch (error) {
+    console.error("Error fetching orders:", error);
+    res.status(500).json({ msg: "Server error", success: false });
+  }
+});
 
 // Signup route for mechanic
 app.post('/signup', async (req, res) => {
@@ -30,7 +41,7 @@ app.post('/signup', async (req, res) => {
     }
 
     // Validate email format using Kickbox API
-    const response = await axios.get(`https://api.kickbox.com/v2/verify?email=${email}&apikey=live_5c838dfa686a082d0a5ed30b5ac7c66d347b4b2523e659006f99ff658e80733e`);
+    const response = await axios.get(`https://api.kickbox.com/v2/verify?email=${email}&apikey=${process.env.KICKBOX_API_KEY}`);
     if (response.data.result === 'undeliverable') {
       return res.status(400).json({ msg: "Invalid email address", success: false });
     }
@@ -48,17 +59,16 @@ app.post('/signup', async (req, res) => {
     }
 
     // Hash the password
-    // const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create a new mechanic
     const newMechanic = await Mechanic.create({
       username,
       phoneNumber,
       email,
-      password,//: hashedPassword,
+      password: hashedPassword,
       city,
-      specialty,
-      orders: []
+      specialty
     });
 
     // Generate JWT token
@@ -92,15 +102,16 @@ app.post('/login', async (req, res) => {
 
     // Compare passwords
     // const isPasswordMatch = await bcrypt.compare(password, mechanic.password);
-    if (password!==mechanic.password) {//!isPasswordMatch
+    if (password !== mechanic.password) {//!isPasswordMatch
       return res.status(401).json({ msg: "Incorrect password", success: false });
     }
 
     // Generate JWT token
     const token = setToken(mechanic);
 
-    mechanic.online=true
-    mechanic.save()
+    mechanic.online = true;
+    await mechanic.save();
+
     // Respond with success message and token
     res.status(200).json({ user: mechanic, token, msg: "Login successful", success: true });
   } catch (error) {
@@ -109,27 +120,32 @@ app.post('/login', async (req, res) => {
   }
 });
 
-app.post('/logout',async (req, res) => {
-  const token = req.cookies.token||req.headers.authorization.split(" ")[1];
+app.post('/logout', async (req, res) => {
+  const token = extractToken(req);
   if (!token) {
     return res.status(401).json({ msg: "Unauthorized", success: false });
   }
 
   const payload = getUser(token);
-  if (payload===null) {
+  if (!payload) {
     return res.status(401).json({ msg: "Unauthorized", success: false });
   }
-  
-  const user=await Mechanic.findById(payload.user)
-  user.online=false
-  user.save()
 
-  res.clearCookie('token');
-  res.status(200).json({ msg: "Logged out successfully", success: true });
-})
+  try {
+    const user = await Mechanic.findById(payload.user);
+    user.online = false;
+    await user.save();
 
-app.post('/verify',mechAuth,async(req,res)=>{
-  res.status(200).json({success:true})
-})
+    res.clearCookie('token');
+    res.status(200).json({ msg: "Logged out successfully", success: true });
+  } catch (error) {
+    console.error("Error logging out mechanic:", error);
+    res.status(500).json({ msg: "Server error", success: false });
+  }
+});
+
+app.post('/verify', mechAuth, (req, res) => {
+  res.status(200).json({ success: true });
+});
 
 module.exports = app;
