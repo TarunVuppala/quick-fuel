@@ -9,7 +9,7 @@ function RefreshHandler({ setIsAuthenticated }) {
         const verifyToken = async () => {
             try {
                 const token = localStorage.getItem('token')
-                const response = await fetch('/api/verify', {
+                const response = await fetch('http://localhost:8000/api/verify', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
