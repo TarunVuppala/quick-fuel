@@ -45,6 +45,9 @@ app.post('/fuel', async (req, res) => {
         price
     })
     const user=await User.findById(payload.user)
+    if (!user) {
+        return res.status(404).json({ msg: "User not found", success: false })
+    }
     user.fuelOrders.push(newFuelOrder._id)
     try {
         user.save()

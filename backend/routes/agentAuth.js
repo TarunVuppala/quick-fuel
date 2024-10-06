@@ -31,10 +31,10 @@ app.post('/signup', async (req, res) => {
     }
 
     // Validate email format using Kickbox API
-    const response = await axios.get(`https://api.kickbox.com/v2/verify?email=${email}&apikey=live_5c838dfa686a082d0a5ed30b5ac7c66d347b4b2523e659006f99ff658e80733e`);
-    if (response.data.result === 'undeliverable') {
-      return res.status(400).json({ msg: "Invalid email address", success: false });
-    }
+    // const response = await axios.get(`https://api.kickbox.com/v2/verify?email=${email}&apikey=live_5c838dfa686a082d0a5ed30b5ac7c66d347b4b2523e659006f99ff658e80733e`);
+    // if (response.data.result === 'undeliverable') {
+    //   return res.status(400).json({ msg: "Invalid email address", success: false });
+    // }
 
     // Check if user with the same email already exists
     const existingUser = await DeliveryAgent.findOne({ email });
