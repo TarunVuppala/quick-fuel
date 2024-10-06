@@ -9,7 +9,6 @@ const getUser = (token) => {
     if (!token) return null;
     return jwt.verify(token, process.env.JWT_SECRET);
   } catch (err) {
-    console.error('Invalid token:', err);
     return null;
   }
 }
