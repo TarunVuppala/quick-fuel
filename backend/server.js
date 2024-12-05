@@ -42,10 +42,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieparser());
 app.use(cors({
     credentials: true,
-    origin: ['http://localhost:3000', 'https://quick-fuel.vercel.app/', 'quick-fuel-git-main-taruns-projects-93c37392.vercel.app',
-        'quick-fuel-64kdcepzb-taruns-projects-93c37392.vercel.app'
-    ]
-}))
+    origin: [
+        'http://localhost:3000',
+        'https://quick-fuel.vercel.app',
+        'https://quick-fuel-git-main-taruns-projects-93c37392.vercel.app',
+        'https://quick-fuel-64kdcepzb-taruns-projects-93c37392.vercel.app'
+    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+}));
 
 app.use('/api/signup', signupRoute);
 app.use('/api/login', loginRoute);
