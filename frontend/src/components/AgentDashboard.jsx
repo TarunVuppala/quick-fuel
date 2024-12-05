@@ -15,7 +15,7 @@ const AgentDashboard = () => {
         const fetchOrders = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await axios.get(`${import.meta.env.REACT_APP_API_URL}/api/agent`, {
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/agent`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 const orders = response.data.orders;
@@ -33,7 +33,7 @@ const AgentDashboard = () => {
     const handleLogout = async () => {
         try {
             const token = localStorage.getItem('token');
-            await axios.post(`${import.meta.env.REACT_APP_API_URL}/api/agent/logout`, {}, {
+            await axios.post(`${process.env.REACT_APP_API_URL}/api/agent/logout`, {}, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             localStorage.removeItem('token');
@@ -46,7 +46,7 @@ const AgentDashboard = () => {
     const handleStatusUpdate = async (orderId) => {
         try {
             const token = localStorage.getItem('token');
-            await axios.put(`${import.meta.env.REACT_APP_API_URL}/api/order/fuel`, { orderId, status }, {
+            await axios.put(`${process.env.REACT_APP_API_URL}/api/order/fuel`, { orderId, status }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             // Update the local orders state

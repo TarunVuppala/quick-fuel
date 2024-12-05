@@ -26,7 +26,7 @@ const MechanicLogin = () => {
     }
 
     try {
-      const response = await axios.post(`${import.meta.env.REACT_APP_API_URL}/api/mechanic/login`, loginInfo);
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/mechanic/login`, loginInfo);
       const data = response.data;
 
       if (data.success) {

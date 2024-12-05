@@ -13,7 +13,7 @@ const MechanicDashboard = () => {
         const fetchRequests = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await axios.get(`${import.meta.env.REACT_APP_API_URL}/api/mechanic`, {
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/mechanic`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 const requests = response.data.orders;
@@ -28,7 +28,7 @@ const MechanicDashboard = () => {
     const handleLogout = async () => {
         try {
             const token = localStorage.getItem('token');
-            await axios.post(`${import.meta.env.REACT_APP_API_URL}/api/mechanic/logout`, {}, {
+            await axios.post(`${process.env.REACT_APP_API_URL}/api/mechanic/logout`, {}, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             localStorage.removeItem('token');
@@ -41,7 +41,7 @@ const MechanicDashboard = () => {
     const handleStatusUpdate = async (requestId) => {
         try {
             const token = localStorage.getItem('token');
-            await axios.put(`${import.meta.env.REACT_APP_API_URL}/api/request/mechanic`, { requestId, status }, {
+            await axios.put(`${process.env.REACT_APP_API_URL}/api/request/mechanic`, { requestId, status }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             // Update the local requests state

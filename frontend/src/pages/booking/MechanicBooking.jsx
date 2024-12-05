@@ -123,7 +123,7 @@ const MechanicBooking = () => {
             'Authorization': `Bearer ${token}`
         };
 
-        axios.post(`${import.meta.env.REACT_APP_API_URL}/api/order/repair`, bookingData, { headers })
+        axios.post(`${process.env.REACT_APP_API_URL}/api/order/repair`, bookingData, { headers })
             .then(response => {
                 alert('Booking successful!');
                 setBookingData({

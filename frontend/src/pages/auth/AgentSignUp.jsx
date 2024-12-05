@@ -38,7 +38,7 @@ const AgentSignUp = () => {
     }
 
     try {
-      const response = await axios.post(`${import.meta.env.REACT_APP_API_URL}/api/agent/signup`, signupInfo);
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/agent/signup`, signupInfo);
       const data = response.data;
 
       if (data.success) {

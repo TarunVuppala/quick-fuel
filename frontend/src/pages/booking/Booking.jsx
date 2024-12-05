@@ -41,7 +41,7 @@ const Booking = () => {
 
   const handleOrder = async () => {
     try {
-      const response = await axios.post(`${import.meta.env.REACT_APP_API_URL}/api/order/fuel`, formData, {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/order/fuel`, formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         }
