@@ -26,7 +26,7 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post('/api/login', loginInfo);
+      const response = await axios.post(`${import.meta.env.REACT_APP_API_URL}/api/login`, loginInfo);
       const data = response.data;
 
       if (data.success) {

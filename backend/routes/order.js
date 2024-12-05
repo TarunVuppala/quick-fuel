@@ -3,20 +3,20 @@ const FuelOrder = require('../models/fuelOrderModel')
 const RepairOrder = require('../models/vehicleRepairModel')
 const DeliveryAgent = require('../models/deliveryAgentModel')
 const Mechanic = require('../models/mechanic')
-const User=require('../models/userModel')
+const User = require('../models/userModel')
 
-const {getUser}=require('../services/user')
+const { getUser } = require('../services/user')
 
 const app = express();
 
 app.post('/fuel', async (req, res) => {
-    const token=req.cookies.token||req.headers.authorization.split(" ")[1];
+    const token = req.cookies.token || req.headers.authorization.split(" ")[1];
     if (!token) {
         res.status(401).json({ msg: "Unauthorized", success: false })
         return;
     }
     const payload = getUser(token);
-    if (payload===null) {
+    if (payload === null) {
         res.status(401).json({ msg: "Unauthorized", success: false })
         return;
     }
@@ -27,14 +27,14 @@ app.post('/fuel', async (req, res) => {
         res.status(400).json({ msg: "Missing fields", success: false })
         return;
     }
-    const agents=await DeliveryAgent.find({online:true})
+    const agents = await DeliveryAgent.find({ online: true })
 
-    if(agents.length===0){
+    if (agents.length === 0) {
         res.status(400).json({ msg: "No agents online", success: false })
         return;
     }
-    const random=Math.floor(Math.random()*agents.length)
-    const deliveryAgent=agents[random]
+    const random = Math.floor(Math.random() * agents.length)
+    const deliveryAgent = agents[random]
 
     const newFuelOrder = new FuelOrder({
         user: payload.user,
@@ -44,7 +44,7 @@ app.post('/fuel', async (req, res) => {
         address,
         price
     })
-    const user=await User.findById(payload.user)
+    const user = await User.findById(payload.user)
     if (!user) {
         return res.status(404).json({ msg: "User not found", success: false })
     }
@@ -54,21 +54,21 @@ app.post('/fuel', async (req, res) => {
         await newFuelOrder.save();
         deliveryAgent.orders.push(newFuelOrder._id)
         deliveryAgent.save()
-        res.status(200).json({newFuelOrder, msg: "Order created", success: true })
+        res.status(200).json({ newFuelOrder, msg: "Order created", success: true })
     } catch (err) {
         console.log(err);
         res.status(500).json({ msg: err.message, success: false })
     }
 })
 
-app.put('/fuel', async(req,res)=>{
-    const token=req.cookies.token||req.headers.authorization.split(" ")[1];
+app.put('/fuel', async (req, res) => {
+    const token = req.cookies.token || req.headers.authorization.split(" ")[1];
     if (!token) {
         res.status(401).json({ msg: "Unauthorized", success: false })
         return;
     }
     const payload = getUser(token);
-    if (payload===null) {
+    if (payload === null) {
         res.status(401).json({ msg: "Unauthorized", success: false })
         return;
     }
@@ -92,31 +92,31 @@ app.put('/fuel', async(req,res)=>{
 })
 
 app.post('/repair', async (req, res) => {
-    const token=req.cookies.token||req.headers.authorization.split(" ")[1];
+    const token = req.cookies.token || req.headers.authorization.split(" ")[1];
     if (!token) {
         res.status(401).json({ msg: "Unauthorized", success: false })
         return;
     }
     const payload = getUser(token);
-    if (payload===null) {
+    if (payload === null) {
         res.status(401).json({ msg: "Unauthorized", success: false })
         return;
     }
-    
+
     const { vehicleType, repairType, address, price } = req.body;
-    
+
     if (!vehicleType || !repairType || !address || !price) {
         res.status(400).json({ msg: "Missing fields", success: false })
         return;
     }
 
-    const mechanics=await Mechanic.find({online:true})
-    if(mechanics.length===0){
+    const mechanics = await Mechanic.find({ online: true })
+    if (mechanics.length === 0) {
         res.status(400).json({ msg: "No agents online", success: false })
         return;
     }
-    const random=Math.floor(Math.random()*mechanics.length)
-    const mechanic=mechanics[random]
+    const random = Math.floor(Math.random() * mechanics.length)
+    const mechanic = mechanics[random]
 
     const newRepairOrder = new RepairOrder({
         user: payload.user,
@@ -130,20 +130,20 @@ app.post('/repair', async (req, res) => {
         await newRepairOrder.save();
         mechanic.orders.push(newRepairOrder._id)
         mechanic.save()
-        res.status(200).json({newRepairOrder, msg: "Order created", success: true })
+        res.status(200).json({ newRepairOrder, msg: "Order created", success: true })
     } catch (err) {
         res.status(500).json({ msg: err.message, success: false })
     }
 })
 
-app.put('/repair', async(req,res)=>{
-    const token=req.cookies.token||req.headers.authorization.split(" ")[1];
+app.put('/repair', async (req, res) => {
+    const token = req.cookies.token || req.headers.authorization.split(" ")[1];
     if (!token) {
         res.status(401).json({ msg: "Unauthorized", success: false })
         return;
     }
     const payload = getUser(token);
-    if (payload===null) {
+    if (payload === null) {
         res.status(401).json({ msg: "Unauthorized", success: false })
         return;
     }

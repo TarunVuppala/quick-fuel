@@ -12,9 +12,9 @@ const { agentAuth } = require('../services/auth');
 // Middleware to parse JSON bodies
 app.use(express.json());
 
-app.get('/', agentAuth,async (req, res) => {
-  const token = req.cookies.token||req.headers.authorization.split(" ")[1];
-  const orders=await FuelOrder.find({deliveryAgent: req.user.user})
+app.get('/', agentAuth, async (req, res) => {
+  const token = req.cookies.token || req.headers.authorization.split(" ")[1];
+  const orders = await FuelOrder.find({ deliveryAgent: req.user.user })
   // const orders=await DeliveryAgent.findById(req.user.user).populate('orders')
 
   res.status(200).json({ orders, msg: "Delivery agent authenticated successfully", success: true });
@@ -94,13 +94,13 @@ app.post('/login', async (req, res) => {
 
     // Compare passwords
     // const isPasswordMatch = await bcrypt.compare(password, deliveryAgent.password);
-    if (password!==deliveryAgent.password) {//!isPasswordMatch
+    if (password !== deliveryAgent.password) {//!isPasswordMatch
       return res.status(401).json({ msg: "Incorrect password", success: false });
     }
 
     // Generate JWT token
     const token = setToken(deliveryAgent);
-    deliveryAgent.online=true
+    deliveryAgent.online = true
     deliveryAgent.save()
     // Respond with success message and token
     res.status(200).json({ user: deliveryAgent, token, msg: "Login successful", success: true });
@@ -110,27 +110,27 @@ app.post('/login', async (req, res) => {
   }
 });
 
-app.post('/logout',async (req, res) => {
-  const token = req.cookies.token||req.headers.authorization.split(" ")[1];
+app.post('/logout', async (req, res) => {
+  const token = req.cookies.token || req.headers.authorization.split(" ")[1];
   if (!token) {
     return res.status(401).json({ msg: "Unauthorized", success: false });
   }
 
   const payload = getUser(token);
-  if (payload===null) {
+  if (payload === null) {
     return res.status(401).json({ msg: "Unauthorized", success: false });
   }
-  
-  const user=await DeliveryAgent.findById(payload.user)
-  user.online=false
+
+  const user = await DeliveryAgent.findById(payload.user)
+  user.online = false
   user.save()
 
   res.clearCookie('token');
   res.status(200).json({ msg: "Logged out successfully", success: true });
 })
 
-app.post('/verify',agentAuth,async(req,res)=>{
-  res.status(200).json({success:true})
+app.post('/verify', agentAuth, async (req, res) => {
+  res.status(200).json({ success: true })
 })
 
 module.exports = app;

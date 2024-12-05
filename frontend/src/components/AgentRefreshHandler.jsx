@@ -9,7 +9,7 @@ function AgentRefreshHandler({ setIsAuthenticated }) {
         const verifyToken = async () => {
             try {
                 const token = localStorage.getItem('token')
-                const response = await fetch('/api/agent/verify', {
+                const response = await fetch(`${import.meta.env.REACT_APP_API_URL}/api/agent/verify`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

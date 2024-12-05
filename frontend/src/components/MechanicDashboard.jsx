@@ -13,7 +13,7 @@ const MechanicDashboard = () => {
         const fetchRequests = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await axios.get('/api/mechanic', {
+                const response = await axios.get(`${import.meta.env.REACT_APP_API_URL}/api/mechanic`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 const requests = response.data.orders;
@@ -28,7 +28,7 @@ const MechanicDashboard = () => {
     const handleLogout = async () => {
         try {
             const token = localStorage.getItem('token');
-            await axios.post('/api/mechanic/logout', {}, {
+            await axios.post(`${import.meta.env.REACT_APP_API_URL}/api/mechanic/logout`, {}, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             localStorage.removeItem('token');
@@ -41,7 +41,7 @@ const MechanicDashboard = () => {
     const handleStatusUpdate = async (requestId) => {
         try {
             const token = localStorage.getItem('token');
-            await axios.put('/api/request/mechanic', { requestId, status }, {
+            await axios.put(`${import.meta.env.REACT_APP_API_URL}/api/request/mechanic`, { requestId, status }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             // Update the local requests state
@@ -64,8 +64,8 @@ const MechanicDashboard = () => {
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4">Mechanic Dashboard</h1>
-            <button 
-                onClick={handleLogout} 
+            <button
+                onClick={handleLogout}
                 className="bg-red-500 text-white px-4 py-2 rounded mb-4 hover:bg-red-700"
             >
                 Logout
@@ -73,8 +73,8 @@ const MechanicDashboard = () => {
             <div>
                 {requests.length > 0 ? (
                     requests.map(request => (
-                        <div 
-                            key={request._id} 
+                        <div
+                            key={request._id}
                             className="border p-4 rounded shadow mb-4"
                         >
                             <h2 className="text-xl font-semibold">Request #{request._id}</h2>
@@ -82,7 +82,7 @@ const MechanicDashboard = () => {
                             <p>Issue: {request.repairType}</p>
                             <p>Address: {request.address}</p>
                             <p>Status: {request.status}</p>
-                            <select 
+                            <select
                                 className="mt-2 p-2 border rounded"
                                 value={selectedRequest === request._id ? status : request.status}
                                 onChange={(e) => handleStatusChange(request._id, e.target.value)}
@@ -91,7 +91,7 @@ const MechanicDashboard = () => {
                                 <option value="in_progress">In Progress</option>
                                 <option value="completed">Completed</option>
                             </select>
-                            <button 
+                            <button
                                 className="bg-blue-500 text-white px-4 py-2 rounded ml-2 mt-2 hover:bg-blue-700"
                                 onClick={() => handleStatusUpdate(request._id)}
                             >

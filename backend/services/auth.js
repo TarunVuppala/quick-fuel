@@ -1,6 +1,6 @@
 const { getUser } = require('./user');
 const User = require('../models/userModel');
-const DeliveryAgent=require('../models/deliveryAgentModel')
+const DeliveryAgent = require('../models/deliveryAgentModel')
 const Mechanic = require('../models/mechanic');
 
 async function auth(req, res, next) {
@@ -14,12 +14,12 @@ async function auth(req, res, next) {
         return;
     }
     const user = getUser(token);
-    if (user===null) {
+    if (user === null) {
         res.status(401).json({ msg: "Unauthorized", success: false });
         return;
     }
-    const dbUser=await User.findById(user.user)
-    if(!dbUser){
+    const dbUser = await User.findById(user.user)
+    if (!dbUser) {
         res.status(401).json({ msg: "Unauthorized", success: false });
         return;
     }
@@ -38,12 +38,12 @@ async function agentAuth(req, res, next) {
         return;
     }
     const user = getUser(token);
-    if (user===null) {
+    if (user === null) {
         res.status(401).json({ msg: "Unauthorized", success: false });
         return;
     }
-    const dbUser=await DeliveryAgent.findById(user.user)
-    if(!dbUser){
+    const dbUser = await DeliveryAgent.findById(user.user)
+    if (!dbUser) {
         res.status(401).json({ msg: "Unauthorized", success: false });
         return;
     }
@@ -62,12 +62,12 @@ async function mechAuth(req, res, next) {
         return;
     }
     const user = getUser(token);
-    if (user===null) {
+    if (user === null) {
         res.status(401).json({ msg: "Unauthorized", success: false });
         return;
     }
-    const dbUser=await Mechanic.findById(user.user)
-    if(!dbUser){
+    const dbUser = await Mechanic.findById(user.user)
+    if (!dbUser) {
         res.status(401).json({ msg: "Unauthorized", success: false });
         return;
     }

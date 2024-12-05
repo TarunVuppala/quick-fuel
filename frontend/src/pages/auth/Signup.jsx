@@ -37,12 +37,12 @@ const Signup = () => {
     }
 
     try {
-      const response = await axios.post('/api/signup', signupInfo);
+      const response = await axios.post(`${import.meta.env.REACT_APP_API_URL}/api/signup`, signupInfo);
       const data = response.data;
 
       if (data.success) {
         setMsg('Signup successful');
-        navigate('/login');        
+        navigate('/login');
       } else {
         setMsg(data.msg);
       }
@@ -54,56 +54,56 @@ const Signup = () => {
   return (
     <div className='h-screen w-full flex flex-col justify-center items-center'>
       {msg && <div className='text-red-500'>{msg}</div>}
-      <form 
-        className='flex flex-col w-fit p-[5rem] rounded-[0.5rem] gap-[1rem] justify-center items-center' 
+      <form
+        className='flex flex-col w-fit p-[5rem] rounded-[0.5rem] gap-[1rem] justify-center items-center'
         onSubmit={handleSubmit}
       >
         <h1 className='font-black text-2xl'>SIGNUP</h1>
-        <input 
-          type="text" 
+        <input
+          type="text"
           name="username"
-          placeholder='username' 
-          className='border bg-transparent px-[1rem] py-[1rem] rounded-[0.5rem] font-black' 
+          placeholder='username'
+          className='border bg-transparent px-[1rem] py-[1rem] rounded-[0.5rem] font-black'
           value={signupInfo.username}
           onChange={handleChange}
         />
-        <input 
-          type="tel" 
+        <input
+          type="tel"
           name="phoneNumber"
-          placeholder='phone number' 
-          className='border bg-transparent px-[1rem] py-[1rem] rounded-[0.5rem] font-black' 
+          placeholder='phone number'
+          className='border bg-transparent px-[1rem] py-[1rem] rounded-[0.5rem] font-black'
           value={signupInfo.phoneNumber}
           onChange={handleChange}
         />
-        <input 
-          type="email" 
+        <input
+          type="email"
           name="email"
-          placeholder='email' 
-          className='border bg-transparent px-[1rem] py-[1rem] rounded-[0.5rem] font-black' 
+          placeholder='email'
+          className='border bg-transparent px-[1rem] py-[1rem] rounded-[0.5rem] font-black'
           value={signupInfo.email}
           onChange={handleChange}
         />
-        <input 
-          type="password" 
+        <input
+          type="password"
           name="password"
-          placeholder='password' 
-          className='border bg-transparent px-[1rem] py-[1rem] rounded-[0.5rem] font-black' 
+          placeholder='password'
+          className='border bg-transparent px-[1rem] py-[1rem] rounded-[0.5rem] font-black'
           value={signupInfo.password}
           onChange={handleChange}
         />
-        <input 
-          type="password" 
+        <input
+          type="password"
           name="confirmPassword"
-          placeholder='confirm password' 
-          className='border bg-transparent px-[1rem] py-[1rem] rounded-[0.5rem] font-black' 
+          placeholder='confirm password'
+          className='border bg-transparent px-[1rem] py-[1rem] rounded-[0.5rem] font-black'
           value={signupInfo.confirmPassword}
           onChange={handleChange}
         />
-        <input 
-          type="text" 
+        <input
+          type="text"
           name="city"
-          placeholder='city' 
-          className='border bg-transparent px-[1rem] py-[1rem] rounded-[0.5rem] font-black' 
+          placeholder='city'
+          className='border bg-transparent px-[1rem] py-[1rem] rounded-[0.5rem] font-black'
           value={signupInfo.city}
           onChange={handleChange}
         />

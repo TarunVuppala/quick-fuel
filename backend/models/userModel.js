@@ -33,15 +33,15 @@ const userModel = mongoose.Schema({
         type: String,
         required: true
     },
-    fuelOrders:{
+    fuelOrders: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'FuelOrder'
     },
-    vehicleRepairOrders:{
+    vehicleRepairOrders: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'VehicleRepairOrder'
     }
-},{
+}, {
     timestamps: true
 });
 

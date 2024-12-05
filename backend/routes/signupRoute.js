@@ -53,7 +53,6 @@ app.post('/', async (req, res) => {
       password,//: hashedPassword,
       city
     });
-    
 
     res.status(200).json({ msg: "User created successfully", success: true });
   } catch (err) {

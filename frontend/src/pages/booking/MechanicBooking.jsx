@@ -123,7 +123,7 @@ const MechanicBooking = () => {
             'Authorization': `Bearer ${token}`
         };
 
-        axios.post('/api/order/repair', bookingData, { headers })
+        axios.post(`${import.meta.env.REACT_APP_API_URL}/api/order/repair`, bookingData, { headers })
             .then(response => {
                 alert('Booking successful!');
                 setBookingData({
@@ -143,7 +143,6 @@ const MechanicBooking = () => {
                 console.error('Error submitting booking:', error);
             });
     };
-
 
     return (
         <div className="p-4">
