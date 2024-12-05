@@ -42,4 +42,4 @@ function RefreshHandler({ setIsAuthenticated }) {
     )
 }
 
-export default RefreshHandler
+export default RefreshHandler;
