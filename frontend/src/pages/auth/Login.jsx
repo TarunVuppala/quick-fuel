@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import CTA from "../../components/CTA";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [loginInfo, setLoginInfo] = useState({
@@ -64,6 +64,9 @@ const Login = () => {
           value={loginInfo.password}
           onChange={handleChange}
         />
+        <div className='text-sm'>
+          Don't have an account?{""}<Link to='/signup' className='text-[#00f] px-[1rem] py-[1rem] underline'>Sign Up</Link>
+        </div>
         <CTA text={"Login"} action={handleSubmit} />
       </form>
     </div>

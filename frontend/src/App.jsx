@@ -27,104 +27,119 @@ function App() {
   const [isAgentAuthenticated, setIsAgentAuthenticated] = useState(false);
   const [isMechAuthenticated, setIsMechAuthenticated] = useState(false);
 
+  // Check if any user is authenticated
+  const isAnyAuthenticated =
+    isAuthenticated || isAgentAuthenticated || isMechAuthenticated;
+
+  // Determine navbar text based on authentication status
+  const navbarText = isAnyAuthenticated ? "Logout" : "Login";
+
   const PrivateRoute = ({ element, auth, redirect }) => {
-    return auth ? element : <Navigate to={redirect} />
-  }
+    return auth ? element : <Navigate to={redirect} />;
+  };
 
   return (
     <div>
-      <AgentRefreshHandler setIsAuthenticated={setIsAgentAuthenticated} />
-      <MechanicRefreshHandler setIsAuthenticated={setIsMechAuthenticated} />
-      <RefreshHandler setIsAuthenticated={setIsAuthenticated} />
+      {/* Only render refresh handlers if no one is authenticated */}
+      {!isAnyAuthenticated && (
+        <>
+          <AgentRefreshHandler setIsAuthenticated={setIsAgentAuthenticated} />
+          <MechanicRefreshHandler setIsAuthenticated={setIsMechAuthenticated} />
+          <RefreshHandler setIsAuthenticated={setIsAuthenticated} />
+        </>
+      )}
+
+      {/* Navbar is always displayed and its content depends on auth */}
+      <Navbar auth={navbarText} />
+
       <Routes>
-        <Route path='/' element={
-          <>
-            <Navbar auth={"Login"} />
-            <Hero />
-            <About />
-            <Final />
-            <Footer />
-          </>
-        } />
+        <Route
+          path='/'
+          element={
+            <>
+              <Hero />
+              <About />
+              <Final />
+              <Footer />
+            </>
+          }
+        />
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
-        <Route path='/home' element={
-          <PrivateRoute auth={isAuthenticated} element={
-            <Home />
+        <Route
+          path='/home'
+          element={
+            <PrivateRoute auth={isAuthenticated} element={<Home />} redirect={'/login'} />
           }
-            redirect={'/login'}
-          />
-        } />
+        />
         <Route path='/about' element={<About />} />
-        <Route path='/order' element={
-          <PrivateRoute auth={isAuthenticated} element={
-            <Order />
+        <Route
+          path='/order'
+          element={
+            <PrivateRoute auth={isAuthenticated} element={<Order />} redirect={'/login'} />
           }
-            redirect={'/login'}
-          />
-        }/>
-
+        />
         <Route path='/contact' element={<Contact />} />
-        <Route path='/booking' element={
-          <PrivateRoute auth={isAuthenticated} element={
-            <Booking />
+        <Route
+          path='/booking'
+          element={
+            <PrivateRoute auth={isAuthenticated} element={<Booking />} redirect={'/login'} />
           }
-            redirect={'/login'}
-          />
-        }/>
-
-        <Route path='/mbooking' element={
-          <PrivateRoute auth={isAuthenticated} element={
-            <MechanicBooking />
+        />
+        <Route
+          path='/mbooking'
+          element={
+            <PrivateRoute
+              auth={isAuthenticated}
+              element={<MechanicBooking />}
+              redirect={'/login'}
+            />
           }
-            redirect={'/login'}
-          />
-        }/>
-
-        <Route path='/tracking' element={
-          <PrivateRoute auth={isAuthenticated} element={
-            <Tracking />
+        />
+        <Route
+          path='/tracking'
+          element={
+            <PrivateRoute auth={isAuthenticated} element={<Tracking />} redirect={'/login'} />
           }
-            redirect={'/login'}
-          />
-        }/>
-
-        <Route path='/agent' element={
-          <PrivateRoute auth={isAgentAuthenticated} element={
-            <AgentDashboard />
+        />
+        <Route
+          path='/agent'
+          element={
+            <PrivateRoute
+              auth={isAgentAuthenticated}
+              element={<AgentDashboard />}
+              redirect={'/agent/login'}
+            />
           }
-            redirect={'/agent/login'}
-
-          />
-        } />
+        />
         <Route path='/agent/signup' element={<AgentSignUp />} />
         <Route path='/agent/login' element={<AgentLogin />} />
-        <Route path='/mechanic' element={
-          <PrivateRoute auth={isMechAuthenticated} element={
-            <MechanicDashboard />
+        <Route
+          path='/mechanic'
+          element={
+            <PrivateRoute
+              auth={isMechAuthenticated}
+              element={<MechanicDashboard />}
+              redirect={'/mechanic/login'}
+            />
           }
-            redirect={'/mechanic/login'}
-          />
-        }
         />
         <Route path='/mechanic/signup' element={<MechanicSignup />} />
         <Route path='/mechanic/login' element={<MechanicLogin />} />
       </Routes>
     </div>
   );
-
 }
 
 const Home = () => {
   return (
     <>
-      <Navbar auth={"Logout"} />
       <Hero />
       <About />
       <Final />
       <Footer />
     </>
-  )
-}
+  );
+};
 
 export default App;

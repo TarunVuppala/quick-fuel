@@ -17,8 +17,8 @@ const Navbar = ({auth}) => {
         <div><Link to='/'>Home</Link></div>
         <div><Link to='/order'>Order</Link></div>
         <div><Link to='/about'>About</Link></div>
-        <div><Link to='/contact'>Contact</Link></div>
-        {auth==='Login' ? <Link to='/login'><div>Login</div></Link> : <button onClick={handleLogout}>Logout</button>
+        {/* <div><Link to='/contact'>Contact</Link></div> */}
+        {auth==='Login' ? <Link to='/login'><div>LOGIN</div></Link> : <button onClick={handleLogout}>LOGOUT</button>
       }
       </div>
     </div>
